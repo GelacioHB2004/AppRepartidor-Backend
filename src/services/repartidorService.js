@@ -116,7 +116,7 @@ const registrarIncidenciaPedido = async (id_pedido, id_repartidor, descripcion) 
 const obtenerHistorialEntregas = async (id_repartidor, fecha_inicio, fecha_fin) => {
     let dateFilter = '';
     const params = [id_repartidor];
-    
+
     if (fecha_inicio && fecha_fin) {
         dateFilter = 'AND p.fecha_entrega BETWEEN ? AND ?';
         // Agregamos "23:59:59" al final para asegurarnos que toma todo el día final
@@ -124,7 +124,7 @@ const obtenerHistorialEntregas = async (id_repartidor, fecha_inicio, fecha_fin) 
     }
 
     const [historial] = await db.query(`
-        SELECT p.*, u.Nombre as nombre_cliente
+        SELECT p.*, u.Nombre as nombre_cliente, u.Telefono as telefono_cliente
         FROM pedidos p
         LEFT JOIN usuarios1 u ON p.id_usuario = u.id_usuarios
         WHERE p.id_repartidor = ? AND p.estado = 'Entregado'
